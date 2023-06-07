@@ -30,7 +30,7 @@ class _HomepageState extends State<Homepage> {
       ),
       body: TopBarFb2(
           title: 'Cari Masakan Berdasarkan Kategori',
-          icon: Icon(Icons.arrow_back)),
+          icon: Icon(Icons.arrow_back_ios)),
       bottomNavigationBar: BottomNavBarFb2(),
     );
   }
