@@ -28,10 +28,65 @@ class _HomepageState extends State<Homepage> {
           ],
         ),
       ),
-      body: TopBarFb2(
-          title: 'Cari Masakan Berdasarkan Kategori',
-          icon: Icon(Icons.arrow_back_ios)),
-      bottomNavigationBar: BottomNavBarFb2(),
+      body: Container(
+          child: Column(
+        children: [
+          // pada bagian ini adalah text untuk menampilkan kategori
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(width: 10),
+                Text(
+                  'Temukan Resep Makananmu Berdasarkan Kategori',
+                  style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600),
+                ),
+                Spacer(),
+                IconButton(
+                    onPressed: () {}, icon: Icon(Icons.arrow_forward_rounded)),
+              ],
+            ),
+          ),
+          // pada bagian ini adalah card kategori
+          Container(
+              child: Column(children: [
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                width: 335,
+                height: 190,
+                child: Card(
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: 335,
+                        height: 110,
+                        child: Image.network(
+                          'https://via.placeholder.com/300?text=DITTO',
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Column(children: [Text('Title'), Text('Subtitle')])
+                    ],
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  elevation: 5,
+                  margin: EdgeInsets.all(9),
+                ),
+              ),
+            ),
+          ]))
+        ],
+      )),
     );
   }
 }
