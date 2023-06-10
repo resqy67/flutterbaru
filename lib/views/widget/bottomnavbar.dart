@@ -14,8 +14,8 @@ class bottomNavBar extends StatelessWidget {
           label: 'Beranda',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite),
-          label: 'Favorit',
+          icon: Icon(Icons.article),
+          label: 'Artikel',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),

@@ -8,6 +8,19 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Temukan Masakan Nusantaramu',
+          style: TextStyle(fontSize: 20),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.search),
+          ),
+          SizedBox(width: 10),
+        ],
+      ),
       body: ScrollPage(),
       bottomNavigationBar: bottomNavBar(),
     );
