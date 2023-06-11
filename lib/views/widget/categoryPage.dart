@@ -33,13 +33,14 @@ class CategoryPage extends StatelessWidget {
               (BuildContext context, int index) {
                 return Container(
                   width: 150,
-                  //card widget dengan margin 10 dan padding 10 serta border radius 10 dan warna putih serta shadow 5 dan elevation 5 dan child column dengan mainAxisAlignment center dan crossAxisAlignment center dan children text dan text serta text dan text
+                  color: Colors.black,
+                  // color: Colors.amberAccent,
                   child: Card(
                     margin: EdgeInsets.all(10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    color: Colors.white,
+                    color: Colors.amber,
                     shadowColor: Colors.grey,
                     elevation: 5,
                     child: Column(
@@ -47,7 +48,7 @@ class CategoryPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
+                          // borderRadius: BorderRadius.circular(10),
                           child: Image.network(
                             'https://cdn.pixabay.com/photo/2015/04/08/13/13/food-712665_960_720.jpg',
                           ),

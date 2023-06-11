@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter12/views/categoryPage.dart';
-import 'package:flutter12/views/resepPage.dart';
+import 'package:flutter12/views/widget/resepPage.dart';
+import 'package:flutter12/views/widget/categoryPage.dart';
 
 class ScrollPage extends StatelessWidget {
   const ScrollPage({
@@ -54,7 +54,6 @@ class ScrollPage extends StatelessWidget {
                           Spacer(),
                           IconButton(
                             onPressed: () {
-                              // navigate ke halaman kategoriPage
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
