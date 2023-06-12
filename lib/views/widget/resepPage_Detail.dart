@@ -6,30 +6,42 @@ class ResepPageDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Resep',
-          style: TextStyle(fontSize: 20),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.search),
-          ),
-          SizedBox(width: 10),
-        ],
-      ),
-      body: Container(
-        child: Column(
-          children: [
-            Container(
-              height: 200,
-              width: 200,
-              color: Colors.amber,
+        body: CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          floating: true,
+          pinned: true,
+          snap: true,
+          expandedHeight: 400,
+          flexibleSpace: FlexibleSpaceBar(
+            background: Image.network(
+              'https://cdn.pixabay.com/photo/2015/04/08/13/13/food-712665_960_720.jpg',
+              fit: BoxFit.cover,
             ),
-          ],
+          ),
+          title: Text('ini makanannya'),
         ),
-      ),
-    );
+        //buatkan sliverPersistentHeader dengan tab detail dan bahan bahan nya
+        // SliverPersistentHeader(
+        //   delegate: _SliverPersistentHeader(
+        //     TabBar(
+        //       tabs: [
+        //         Tab(
+        //           text: 'Detail',
+        //         ),
+        //         Tab(
+        //           text: 'Bahan',
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
+        SliverList(delegate: SliverChildBuilderDelegate(((context, index) {
+          return ListTile(
+            title: Text('data'),
+          );
+        })))
+      ],
+    ));
   }
 }

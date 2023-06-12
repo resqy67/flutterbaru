@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter12/views/widget/bottomNavBar.dart';
+import 'package:flutter12/views/widget/bottomnavbar.dart';
+// import 'package:flutter12/views/widget/bottomNavBar.dart';
 
 class CategoryPage extends StatelessWidget {
   const CategoryPage({Key? key}) : super(key: key);
