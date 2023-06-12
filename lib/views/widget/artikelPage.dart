@@ -8,12 +8,12 @@ class ArtikelPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Artikel'),
+        title: const Text('Artikel'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Artikel Page'),
       ),
-      bottomNavigationBar: bottomNavBar(),
+      bottomNavigationBar: const bottomNavBar(),
     );
   }
 }

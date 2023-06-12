@@ -9,20 +9,20 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Temukan Masakan Nusantaramu',
           style: TextStyle(fontSize: 20),
         ),
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
         ],
       ),
-      body: ScrollPage(),
-      bottomNavigationBar: bottomNavBar(),
+      body: const ScrollPage(),
+      bottomNavigationBar: const bottomNavBar(),
     );
   }
 }

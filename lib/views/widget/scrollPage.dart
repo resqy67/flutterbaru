@@ -12,11 +12,11 @@ class ScrollPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Popup'),
+          title: const Text('Popup'),
           content: Text(message),
           actions: [
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -35,47 +35,47 @@ class ScrollPage extends StatelessWidget {
           delegate: SliverChildListDelegate(
             [
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 10),
+                      margin: const EdgeInsets.only(left: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Temukan Resep Makananmu Berdasarkan Kategori',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           IconButton(
                             onPressed: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => CategoryPage()));
+                                      builder: (context) => const CategoryPage()));
                             },
-                            icon: Icon(Icons.arrow_forward_rounded),
+                            icon: const Icon(Icons.arrow_forward_rounded),
                           ),
                         ],
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       height: 150,
                       child: ListView(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         children: [
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           InkWell(
                             onTap: () {
                               _showPopup(context, 'Makanan Berat');
                             },
-                            child: Container(
+                            child: SizedBox(
                               width: 150,
                               child: Card(
                                 shape: RoundedRectangleBorder(
@@ -89,19 +89,19 @@ class ScrollPage extends StatelessWidget {
                                         'https://cdn.pixabay.com/photo/2015/04/08/13/13/food-712665_960_720.jpg',
                                       ),
                                     ),
-                                    SizedBox(height: 10),
-                                    Text('Makanan Berat'),
+                                    const SizedBox(height: 10),
+                                    const Text('Makanan Berat'),
                                   ],
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           InkWell(
                             onTap: () {
                               _showPopup(context, 'Makanan Ringan');
                             },
-                            child: Container(
+                            child: SizedBox(
                               width: 150,
                               child: Card(
                                 shape: RoundedRectangleBorder(
@@ -115,19 +115,19 @@ class ScrollPage extends StatelessWidget {
                                         'https://cdn.pixabay.com/photo/2015/04/08/13/13/food-712665_960_720.jpg',
                                       ),
                                     ),
-                                    SizedBox(height: 10),
-                                    Text('Makanan Ringan'),
+                                    const SizedBox(height: 10),
+                                    const Text('Makanan Ringan'),
                                   ],
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           InkWell(
                             onTap: () {
                               _showPopup(context, 'Makanan Penutup');
                             },
-                            child: Container(
+                            child: SizedBox(
                               width: 150,
                               child: Card(
                                 shape: RoundedRectangleBorder(
@@ -141,19 +141,19 @@ class ScrollPage extends StatelessWidget {
                                         'https://cdn.pixabay.com/photo/2015/04/08/13/13/food-712665_960_720.jpg',
                                       ),
                                     ),
-                                    SizedBox(height: 10),
-                                    Text('Makanan Penutup'),
+                                    const SizedBox(height: 10),
+                                    const Text('Makanan Penutup'),
                                   ],
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           InkWell(
                             onTap: () {
                               _showPopup(context, 'Makanan Minuman');
                             },
-                            child: Container(
+                            child: SizedBox(
                               width: 150,
                               child: Card(
                                 shape: RoundedRectangleBorder(
@@ -167,14 +167,14 @@ class ScrollPage extends StatelessWidget {
                                         'https://cdn.pixabay.com/photo/2015/04/08/13/13/food-712665_960_720.jpg',
                                       ),
                                     ),
-                                    SizedBox(height: 10),
-                                    Text('Makanan Minuman'),
+                                    const SizedBox(height: 10),
+                                    const Text('Makanan Minuman'),
                                   ],
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                         ],
                       ),
                     ),
@@ -182,35 +182,35 @@ class ScrollPage extends StatelessWidget {
                       child: Column(
                         children: [
                           Container(
-                            margin: EdgeInsets.only(left: 10),
+                            margin: const EdgeInsets.only(left: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SizedBox(width: 10),
-                                Text(
+                                const SizedBox(width: 10),
+                                const Text(
                                   'Rekomendasi Resep Makananmu',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: Colors.grey,
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 IconButton(
                                   onPressed: () {
                                     // navigate ke halaman resepPage
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => ResepPage()));
+                                            builder: (context) => const ResepPage()));
                                   },
-                                  icon: Icon(Icons.arrow_forward_rounded),
+                                  icon: const Icon(Icons.arrow_forward_rounded),
                                 ),
                               ],
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            margin: const EdgeInsets.symmetric(horizontal: 10),
                             child: InkWell(
                               onTap: () {
                                 _showPopup(context, 'Makanan Berat');
@@ -224,15 +224,15 @@ class ScrollPage extends StatelessWidget {
                                         'https://cdn.pixabay.com/photo/2015/04/08/13/13/food-712665_960_720.jpg',
                                       ),
                                     ),
-                                    SizedBox(height: 10),
-                                    Text('Makanan Berat'),
+                                    const SizedBox(height: 10),
+                                    const Text('Makanan Berat'),
                                   ],
                                 ),
                               ),
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            margin: const EdgeInsets.symmetric(horizontal: 10),
                             child: InkWell(
                               onTap: () {
                                 _showPopup(context, 'Makanan Ringan');
@@ -245,8 +245,8 @@ class ScrollPage extends StatelessWidget {
                                       child: Image.network(
                                           'https://cdn.pixabay.com/photo/2015/04/08/13/13/food-712665_960_720.jpg'),
                                     ),
-                                    SizedBox(height: 10),
-                                    Text('Makanan Ringan'),
+                                    const SizedBox(height: 10),
+                                    const Text('Makanan Ringan'),
                                   ],
                                 ),
                               ),

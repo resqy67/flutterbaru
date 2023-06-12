@@ -9,25 +9,25 @@ class ResepPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Temukan Resepnya',
           style: TextStyle(fontSize: 20),
         ),
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
         ],
       ),
-      bottomNavigationBar: bottomNavBar(),
+      bottomNavigationBar: const bottomNavBar(),
       body: CustomScrollView(
         shrinkWrap: true,
         slivers: [
           // slivergrid
           SliverGrid(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
             ),
             delegate: SliverChildBuilderDelegate(
@@ -38,10 +38,10 @@ class ResepPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ResepPageDetail()));
+                              builder: (context) => const ResepPageDetail()));
                     },
                     child: Card(
-                      margin: EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(10),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -58,8 +58,8 @@ class ResepPage extends StatelessWidget {
                               'https://cdn.pixabay.com/photo/2015/04/08/13/13/food-712665_960_720.jpg',
                             ),
                           ),
-                          SizedBox(height: 10),
-                          Text(
+                          const SizedBox(height: 10),
+                          const Text(
                             'ini nama resep',
                             style: TextStyle(
                               fontSize: 12,
