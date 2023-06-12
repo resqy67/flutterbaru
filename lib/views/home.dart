@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter12/views/widget/bottomNavBar.dart';
+import 'package:flutter12/views/widget/bottomnavbar.dart';
+// import 'package:flutter12/views/widget/bottomNavBar.dart';
 import 'package:flutter12/views/widget/scrollPage.dart';
 
 class Homepage extends StatelessWidget {
