@@ -19,7 +19,7 @@ class ResepPageDetail extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          title: Text('ini makanannya'),
+          title: const Text('ini makanannya'),
         ),
         //buatkan sliverPersistentHeader dengan tab detail dan bahan bahan nya
         // SliverPersistentHeader(
@@ -37,7 +37,7 @@ class ResepPageDetail extends StatelessWidget {
         //   ),
         // ),
         SliverList(delegate: SliverChildBuilderDelegate(((context, index) {
-          return ListTile(
+          return const ListTile(
             title: Text('data'),
           );
         })))
