@@ -20,7 +20,7 @@ class CategoryPage extends StatelessWidget {
           const SizedBox(width: 10),
         ],
       ),
-      bottomNavigationBar: const bottomNavBar(),
+      bottomNavigationBar: BottomNavBar(),
       body: CustomScrollView(
         shrinkWrap: true,
         slivers: [

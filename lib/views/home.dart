@@ -22,7 +22,7 @@ class Homepage extends StatelessWidget {
         ],
       ),
       body: const ScrollPage(),
-      bottomNavigationBar: const bottomNavBar(),
+      bottomNavigationBar: BottomNavBar(),
     );
   }
 }

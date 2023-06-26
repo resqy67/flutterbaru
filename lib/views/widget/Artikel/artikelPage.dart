@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter12/views/widget/artikel/artikelPage_detail.dart';
 import 'package:flutter12/views/widget/bottomNavBar.dart';
-import 'package:flutter12/views/widget/resepPage_Detail.dart';
 
-class ResepPage extends StatelessWidget {
-  const ResepPage({Key? key}) : super(key: key);
+class ArtikelPage extends StatelessWidget {
+  const ArtikelPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Temukan Resepnya',
+          'Temukan Artikel Terbaru',
           style: TextStyle(fontSize: 20),
         ),
         actions: [
@@ -21,7 +21,7 @@ class ResepPage extends StatelessWidget {
           const SizedBox(width: 10),
         ],
       ),
-      bottomNavigationBar: const bottomNavBar(),
+      bottomNavigationBar: BottomNavBar(),
       body: CustomScrollView(
         shrinkWrap: true,
         slivers: [
@@ -38,7 +38,7 @@ class ResepPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ResepPageDetail()));
+                              builder: (context) => const ArtikelPageDetail()));
                     },
                     child: Card(
                       margin: const EdgeInsets.all(10),
@@ -60,7 +60,7 @@ class ResepPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 10),
                           const Text(
-                            'ini nama resep',
+                            'ini nama artikel',
                             style: TextStyle(
                               fontSize: 12,
                             ),
