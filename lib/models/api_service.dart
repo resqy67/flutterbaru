@@ -1,45 +1,58 @@
-import 'dart:convert';
-// import 'package:flutter12/models/resepList.dart';
-// import 'package:http/http.dart' as http;
-
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ApiService {
-  static const String baseUrl = 'https://resep-hari-ini.vercel.app';
+  final String apiUrl = "https://masak-n47txy691-tomorisakura.vercel.app/";
 
-  Future<String> getResepHarian() async {
-    final response = await http.get(Uri.parse('$baseUrl/api/recipes'));
+  Future<List<Map<String, dynamic>>> fetchRecipes(int page) async {
+    final response = await http.get(Uri.parse("$apiUrl/api/recipes/$page"));
+
     if (response.statusCode == 200) {
-      return response.body;
+      final jsonData = json.decode(response.body)['results'];
+      return List<Map<String, dynamic>>.from(jsonData);
     } else {
-      throw Exception('Failed to fetch recipe');
+      throw Exception('Failed to fetch data');
     }
   }
 
-  static getRecipes() {}
+  Future<List<Map<String, dynamic>>> fetchArtikel(int page) async {
+    String apiUrl;
+
+    if (page == 1) {
+      apiUrl =
+          "https://resep-hari-ini.vercel.app/api/category/article/tips-masak";
+    } else if (page == 2) {
+      apiUrl =
+          "https://resep-hari-ini.vercel.app/api/category/article/makanan-gaya-hidup";
+    } else if (page == 3) {
+      apiUrl =
+          "https://resep-hari-ini.vercel.app/api/category/article/resep-lezat-anti-sisa";
+    } else if (page == 4) {
+      apiUrl =
+          "https://resep-hari-ini.vercel.app/api/category/article/uncategorized";
+    } else {
+      throw Exception('Invalid page number');
+    }
+
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body)['results'];
+      return List<Map<String, dynamic>>.from(jsonData);
+    } else {
+      throw Exception('Failed to fetch data');
+    }
+  }
+
+  //buatkan future untuk fetch detail
+  Future<Map<String, dynamic>> fetchRecipeDetail(String key) async {
+    final response = await http.get(Uri.parse("$apiUrl/api/recipe/$key"));
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      return Map<String, dynamic>.from(jsonData);
+    } else {
+      throw Exception('Failed to fetch data');
+    }
+  }
 }
-
-
-// class RecipeApi {
-//   static Future<List<ResepList>> getRecipe() async {
-//     var uri = Uri.https('resep-hari-ini.vercel.app', '/api/recipes', {
-//       "limit": "10",
-//       "start": "0",
-//     });
-
-//     final response = await http.get(uri, headers: {
-//       // "x-rapidapi-key": "YOUR API KEY FROM YUMMLY API",
-//       "x-rapidapi-host": "resep-hari-ini.vercel.app",
-//       "useQueryString": "true"
-//     });
-
-//     Map data = jsonDecode(response.body);
-//     List _temp = [];
-
-//     for (var i in data['feed']) {
-//       _temp.add(i['content']['details']);
-//     }
-
-//     return ResepList.recipesFromSnapshot(_temp);
-//   }
-// }

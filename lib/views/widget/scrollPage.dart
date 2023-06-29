@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter12/views/widget/Resep/resepPage.dart';
 import 'package:flutter12/views/widget/Category/categoryPage.dart';
-import 'package:flutter12/views/widget/Resep/resepPage_detail.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:flutter12/views/widget/Resep/resepPage_Detail.dart';
 
-class Recipe {
-  final String image;
-  final String title;
-
-  Recipe({required this.image, required this.title});
-}
+import 'package:flutter12/models/model.dart';
+import 'package:flutter12/models/api_service.dart';
+import 'package:flutter12/models/kategori.dart';
 
 class ScrollPage extends StatefulWidget {
   const ScrollPage({
@@ -22,9 +17,10 @@ class ScrollPage extends StatefulWidget {
 }
 
 class _ScrollPageState extends State<ScrollPage> {
-  final String apiUrl =
-      "https://masak-n47txy691-tomorisakura.vercel.app/api/recipes";
+  final ApiService apiService = ApiService();
+
   List<Recipe> recipes = [];
+  List<Category> categorys = [];
   int currentPage = 1;
   bool isLoading = false;
   ScrollController _scrollController = ScrollController();
@@ -34,6 +30,7 @@ class _ScrollPageState extends State<ScrollPage> {
   void initState() {
     super.initState();
     fetchData(currentPage);
+    // fetchCategory('category', currentPage);
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -49,21 +46,23 @@ class _ScrollPageState extends State<ScrollPage> {
       setState(() {
         isLoading = true;
       });
-      var response = await http.get(Uri.parse("$apiUrl?page=$page"));
-      if (response.statusCode == 200) {
-        var jsonData = json.decode(response.body)['results'];
+      try {
+        final jsonData = await apiService.fetchRecipes(page);
         List<Recipe> newRecipes = [];
         for (var recipe in jsonData) {
-          newRecipes
-              .add(Recipe(image: recipe['thumb'], title: recipe['title']));
+          newRecipes.add(Recipe(
+              image: recipe['thumb'],
+              title: recipe['title'],
+              key: recipe['key']));
         }
         setState(() {
           recipes.addAll(newRecipes);
           currentPage++;
           isLoading = false;
         });
-      } else {
-        throw Exception('Failed to fetch data');
+      } catch (e) {
+        print(e);
+        // Handle error
       }
     }
   }
@@ -73,6 +72,15 @@ class _ScrollPageState extends State<ScrollPage> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void navigateToRecipeDetail(Recipe recipe) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResepPageDetail(recipe: recipe),
+      ),
+    );
   }
 
   void _showPopup(BuildContext context, String message) {
@@ -136,119 +144,47 @@ class _ScrollPageState extends State<ScrollPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 150,
-                      child: ListView(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          const SizedBox(width: 10),
-                          InkWell(
-                            onTap: () {
-                              _showPopup(context, 'Makanan Berat');
-                            },
-                            child: SizedBox(
-                              width: 150,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
-                                  children: [
-                                    ClipRRect(
+                        height: 150,
+                        // flex: 1,
+                        child: ListView(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              const SizedBox(width: 10),
+                              InkWell(
+                                onTap: () {
+                                  _showPopup(context, 'Makanan Berat');
+                                },
+                                child: SizedBox(
+                                  width: 150,
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(
-                                        'https://cdn.pixabay.com/photo/2015/04/08/13/13/food-712665_960_720.jpg',
-                                      ),
                                     ),
-                                    const SizedBox(height: 10),
-                                    const Text('Makanan Berat'),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          InkWell(
-                            onTap: () {
-                              _showPopup(context, 'Makanan Ringan');
-                            },
-                            child: SizedBox(
-                              width: 150,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(
-                                        'https://www.masakapahariini.com/wp-content/uploads/2020/09/resep-dimsum-ayam-final-500x300.jpg',
-                                      ),
+                                    child: Column(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.network(
+                                            'https://cdn.pixabay.com/photo/2015/04/08/13/13/food-712665_960_720.jpg',
+                                          ),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        // panggil text dari fetch data
+                                        Text(
+                                          'Makanan Berat',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(height: 10),
-                                    const Text('Makanan Ringan'),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          InkWell(
-                            onTap: () {
-                              _showPopup(context, 'Makanan Penutup');
-                            },
-                            child: SizedBox(
-                              width: 150,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(
-                                        'https://cdn.pixabay.com/photo/2015/04/08/13/13/food-712665_960_720.jpg',
-                                      ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    const Text('Makanan Penutup'),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          InkWell(
-                            onTap: () {
-                              _showPopup(context, 'Makanan Minuman');
-                            },
-                            child: SizedBox(
-                              width: 150,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(
-                                        'https://cdn.pixabay.com/photo/2015/04/08/13/13/food-712665_960_720.jpg',
-                                      ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    const Text('Makanan Minuman'),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                        ],
-                      ),
-                    ),
+                              )
+                            ])),
                     Container(
                       margin: const EdgeInsets.only(left: 10),
                       child: Row(
@@ -299,13 +235,8 @@ class _ScrollPageState extends State<ScrollPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: InkWell(
                   onTap: () {
-                    // hubungkan ke artikel detail
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ResepPageDetail(),
-                      ),
-                    );
+                    // hubungkan ke halaman detail
+                    navigateToRecipeDetail(recipe);
                   },
                   child: Card(
                     child: Column(

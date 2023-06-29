@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter12/views/widget/bottomNavBar.dart';
 import 'package:flutter12/views/widget/resep/resepPage_Detail.dart';
 import 'package:http/http.dart' as http;
-// import 'package:flutter12/models/api_service.dart';
 import 'dart:convert';
-
-class Recipe {
-  final String image;
-  final String title;
-
-  Recipe({required this.image, required this.title});
-}
+import 'package:flutter12/models/model.dart';
+import 'package:flutter12/models/api_service.dart';
 
 class ResepPage extends StatefulWidget {
   const ResepPage({Key? key}) : super(key: key);
@@ -20,9 +14,8 @@ class ResepPage extends StatefulWidget {
 }
 
 class _ResepPageState extends State<ResepPage> {
-  // api url
-  final String apiUrl =
-      "https://masak-n47txy691-tomorisakura.vercel.app/api/recipes";
+  final ApiService apiService = ApiService();
+
   List<Recipe> recipes = [];
   int currentPage = 1;
   bool isLoading = false;
@@ -42,36 +35,46 @@ class _ResepPageState extends State<ResepPage> {
     });
   }
 
-  // fetch data
   Future<void> fetchData(int page) async {
     if (!isLoading) {
       setState(() {
         isLoading = true;
       });
-      var response = await http.get(Uri.parse("$apiUrl?page=$page"));
-      if (response.statusCode == 200) {
-        var jsonData = json.decode(response.body)['results'];
+      try {
+        final jsonData = await apiService.fetchRecipes(page);
         List<Recipe> newRecipes = [];
         for (var recipe in jsonData) {
-          newRecipes
-              .add(Recipe(image: recipe['thumb'], title: recipe['title']));
+          newRecipes.add(Recipe(
+              image: recipe['thumb'],
+              title: recipe['title'],
+              key: recipe['key']));
         }
         setState(() {
           recipes.addAll(newRecipes);
           currentPage++;
           isLoading = false;
         });
-      } else {
-        throw Exception('Failed to fetch data');
+      } catch (e) {
+        print(e);
+        // Handle error
       }
     }
-  }
+  } // fetch data
 
   // dispose
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void navigateToRecipeDetail(Recipe recipe) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResepPageDetail(recipe: recipe),
+      ),
+    );
   }
 
   @override
@@ -112,10 +115,13 @@ class _ResepPageState extends State<ResepPage> {
                 return Container(
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ResepPageDetail()));
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => ResepPageDetail(recipe: recipe),
+                      //   ),
+                      // );
+                      navigateToRecipeDetail(recipe);
                     },
                     child: Card(
                       margin: const EdgeInsets.all(10),
