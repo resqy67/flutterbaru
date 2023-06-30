@@ -1,80 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:flutter12/views/home.dart';
 import 'package:flutter12/views/widget/Artikel/artikelPage.dart';
 import 'package:flutter12/views/widget/Save/savePage.dart';
+import 'package:flutter12/views/widget/scrollPage.dart';
 
-class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<BottomNavBar> createState() => _BottomNavBarState();
+Widget buildBody(int selectedIndex) {
+  switch (selectedIndex) {
+    case 0:
+      return ScrollPage();
+    case 1:
+      return ArtikelPage();
+    case 2:
+      return SavePage();
+    default:
+      return Container();
+  }
 }
 
-class _BottomNavBarState extends State<BottomNavBar> {
-  int _selectedIndex = 0;
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Beranda',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.article),
-          label: 'Artikel',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.bookmark),
-          label: 'Bookmark',
-        ),
-      ],
-      currentIndex: _selectedIndex,
-      onTap: (int index) {
-        setState(() {
-          _selectedIndex = index;
-        });
-        if (_selectedIndex == 0) {
-          // Index 1 adalah menu 'Artikel'
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Homepage(),
-            ),
-          );
-        }
-        if (_selectedIndex == 1) {
-          // Index 1 adalah menu 'Artikel'
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ArtikelPage(),
-            ),
-          );
-        }
-        if (_selectedIndex == 2) {
-          // Index 1 adalah menu 'Artikel'
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SavePage(),
-            ),
-          );
-        }
-        // if (_selectedIndex == 2) {
-        //   // Index 1 adalah menu 'Artikel'
-        //   Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => SavePage(),
-        //     ),
-        //   );
-        // }
-      },
-      selectedItemColor: Colors.blue, // Warna ikon dan teks menu aktif
-      unselectedItemColor: Colors.grey,
-    );
-  }
+Widget buildBottomNavigationBar(int selectedIndex, Function(int) onTabTapped) {
+  return BottomNavigationBar(
+    items: const <BottomNavigationBarItem>[
+      BottomNavigationBarItem(
+        icon: Icon(Icons.home),
+        label: 'Home',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.article),
+        label: 'Artikel',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.bookmark),
+        label: 'Bookmark',
+      ),
+    ],
+    currentIndex: selectedIndex,
+    selectedItemColor: Colors.blue,
+    onTap: onTabTapped,
+  );
 }

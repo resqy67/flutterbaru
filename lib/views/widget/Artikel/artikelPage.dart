@@ -91,7 +91,7 @@ class _ArtikelPageState extends State<ArtikelPage> {
           const SizedBox(width: 10),
         ],
       ),
-      bottomNavigationBar: BottomNavBar(),
+      // bottomNavigationBar: BottomNavBar(),
       body: GridView.builder(
         controller: _scrollController,
         shrinkWrap: true,

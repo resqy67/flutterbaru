@@ -108,6 +108,14 @@ class _ScrollPageState extends State<ScrollPage> {
     return CustomScrollView(
       controller: _scrollController,
       slivers: <Widget>[
+        SliverAppBar(
+          pinned: true,
+          // buatkan app bar dengan tulisan 'Temukan Masakan Nusantaramu'
+          title: const Text(
+            'Temukan Masakan Nusantaramu',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
         SliverList(
           delegate: SliverChildListDelegate(
             [

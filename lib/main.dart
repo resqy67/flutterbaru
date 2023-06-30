@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter12/views/home.dart';
+import 'package:flutter12/views/widget/Artikel/artikelPage.dart';
+import 'package:flutter12/views/widget/Save/savePage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,6 +28,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const Homepage(),
+      // routes: {
+      //   '/artikel': (context) => ArtikelPage(),
+      //   '/bookmark': (context) => SavePage(),
+      // },
     );
   }
 }

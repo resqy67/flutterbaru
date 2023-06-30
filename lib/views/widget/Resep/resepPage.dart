@@ -93,7 +93,7 @@ class _ResepPageState extends State<ResepPage> {
           const SizedBox(width: 10),
         ],
       ),
-      bottomNavigationBar: BottomNavBar(),
+      // bottomNavigationBar: BottomNavBar(),
       body: CustomScrollView(
         controller: _scrollController,
         shrinkWrap: true,
