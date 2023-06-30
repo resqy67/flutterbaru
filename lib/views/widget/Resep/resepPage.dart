@@ -100,7 +100,10 @@ class _ResepPageState extends State<ResepPage> {
         slivers: [
           SliverGrid(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
+              crossAxisCount: 2,
+              childAspectRatio: 0.8,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 10,
             ),
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
@@ -115,37 +118,53 @@ class _ResepPageState extends State<ResepPage> {
                 return Container(
                   child: InkWell(
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => ResepPageDetail(recipe: recipe),
-                      //   ),
-                      // );
                       navigateToRecipeDetail(recipe);
                     },
                     child: Card(
-                      margin: const EdgeInsets.all(10),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                       color: Colors.white,
                       shadowColor: Colors.grey,
-                      elevation: 5,
+                      elevation: 2,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          ClipRRect(
-                            // borderRadius: BorderRadius.circular(10),
-                            child: Image.network(
-                              recipe.image,
+                          Expanded(
+                            flex: 3,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.network(
+                                recipe.image,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),
-                          Text(
-                            recipe.title,
-                            style: TextStyle(
-                              fontSize: 12,
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    recipe.title,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  // const SizedBox(height: 5),
+                                  // Text(
+                                  //   'Author: John Doe',
+                                  //   style: TextStyle(fontSize: 12),
+                                  // ),
+                                ],
+                              ),
                             ),
                           ),
                         ],

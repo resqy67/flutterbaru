@@ -2,7 +2,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ApiService {
-  final String apiUrl = "https://masak-n47txy691-tomorisakura.vercel.app/";
+  // final String apiUrl = "https://masak-n47txy691-tomorisakura.vercel.app/";
+  final String apiUrl = "https://resep-hari-ini.vercel.app/";
 
   Future<List<Map<String, dynamic>>> fetchRecipes(int page) async {
     final response = await http.get(Uri.parse("$apiUrl/api/recipes/$page"));

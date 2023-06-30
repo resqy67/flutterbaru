@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter12/views/home.dart';
 import 'package:flutter12/views/widget/Artikel/artikelPage.dart';
-import 'package:flutter12/views/widget/Category/categoryPage.dart';
+import 'package:flutter12/views/widget/Save/savePage.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({
@@ -27,8 +27,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
           label: 'Artikel',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.category_rounded),
-          label: 'Category',
+          icon: Icon(Icons.bookmark),
+          label: 'Bookmark',
         ),
       ],
       currentIndex: _selectedIndex,
@@ -59,10 +59,19 @@ class _BottomNavBarState extends State<BottomNavBar> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CategoryPage(),
+              builder: (context) => SavePage(),
             ),
           );
         }
+        // if (_selectedIndex == 2) {
+        //   // Index 1 adalah menu 'Artikel'
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => SavePage(),
+        //     ),
+        //   );
+        // }
       },
       selectedItemColor: Colors.blue, // Warna ikon dan teks menu aktif
       unselectedItemColor: Colors.grey,

@@ -3,6 +3,7 @@ import 'package:flutter12/views/widget/artikel/artikelPage_detail.dart';
 import 'package:flutter12/views/widget/bottomNavBar.dart';
 import 'package:flutter12/models/model.dart';
 import 'package:flutter12/models/api_service.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ArtikelPage extends StatefulWidget {
   const ArtikelPage({Key? key}) : super(key: key);
@@ -19,7 +20,6 @@ class _ArtikelPageState extends State<ArtikelPage> {
   bool isLoading = false;
   ScrollController _scrollController = ScrollController();
 
-  // konidi state untuk fetch data
   @override
   void initState() {
     super.initState();
@@ -43,9 +43,10 @@ class _ArtikelPageState extends State<ArtikelPage> {
         List<Artikel> newArtikels = [];
         for (var recipe in jsonData) {
           newArtikels.add(Artikel(
-              image: recipe['thumb'],
-              title: recipe['title'],
-              key: recipe['key']));
+            image: recipe['thumb'],
+            title: recipe['title'],
+            key: recipe['key'],
+          ));
         }
         setState(() {
           artikels.addAll(newArtikels);
@@ -57,9 +58,8 @@ class _ArtikelPageState extends State<ArtikelPage> {
         // Handle error
       }
     }
-  } // fetch data
+  }
 
-  // dispose
   @override
   void dispose() {
     _scrollController.dispose();
@@ -92,73 +92,117 @@ class _ArtikelPageState extends State<ArtikelPage> {
         ],
       ),
       bottomNavigationBar: BottomNavBar(),
-      body: CustomScrollView(
+      body: GridView.builder(
         controller: _scrollController,
         shrinkWrap: true,
-        slivers: [
-          SliverGrid(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                if (index == artikels.length) {
-                  if (isLoading) {
-                    return Center(child: CircularProgressIndicator());
-                  } else {
-                    return Container(
-                        child: Center(
-                      child: TextButton(
-                        onPressed: () {
-                          fetchData(currentPage);
-                        },
-                        child: Text('Load More'),
-                      ),
-                    )); // Render an empty container if no more data is available
-                  }
-                }
-                var recipe = artikels[index];
-                return Container(
-                  child: InkWell(
-                    onTap: () {
-                      navigateToArtikelDetail(recipe);
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.8,
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 10,
+        ),
+        itemCount: artikels.length + 1,
+        itemBuilder: (BuildContext context, int index) {
+          if (index == artikels.length) {
+            if (isLoading) {
+              return _buildShimmerLoading();
+              // return Center(child: CircularProgressIndicator());
+            } else {
+              return Container(
+                child: Center(
+                  child: TextButton(
+                    onPressed: () {
+                      fetchData(currentPage);
                     },
-                    child: Card(
-                      margin: const EdgeInsets.all(10),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                    child: Text('Load More'),
+                  ),
+                ),
+              );
+            }
+          }
+          var recipe = artikels[index];
+          return InkWell(
+            onTap: () {
+              navigateToArtikelDetail(recipe);
+            },
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              color: Colors.white,
+              shadowColor: Colors.grey,
+              elevation: 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                        recipe.image,
+                        fit: BoxFit.cover,
                       ),
-                      color: Colors.white,
-                      shadowColor: Colors.grey,
-                      elevation: 5,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.network(
-                              recipe.image,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
                           Text(
                             recipe.title,
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
                             ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
+                          // const SizedBox(height: 5),
+                          // Text(
+                          //   'Author: John Doe',
+                          //   style: TextStyle(fontSize: 12),
+                          // ),
                         ],
                       ),
                     ),
                   ),
-                );
-              },
-              childCount: artikels.length + 1,
+                ],
+              ),
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
+}
+
+Widget _buildShimmerLoading() {
+  return GridView.builder(
+    shrinkWrap: true,
+    physics: NeverScrollableScrollPhysics(),
+    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 1,
+      childAspectRatio: 0.7,
+      crossAxisSpacing: 10,
+      mainAxisSpacing: 10,
+    ),
+    itemCount: 1, // Jumlah shimmer loading yang ingin ditampilkan
+    itemBuilder: (BuildContext context, int index) {
+      return Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          color: Colors.white,
+        ),
+      );
+    },
+  );
 }

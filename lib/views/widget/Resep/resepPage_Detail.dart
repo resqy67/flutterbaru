@@ -1,8 +1,11 @@
 import 'dart:convert';
-
+import 'package:flutter12/views/widget/resep/resepPage_Detail.dart';
+import 'package:flutter12/views/widget/save/savePage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter12/models/model.dart';
 import 'package:flutter12/models/api_service.dart';
+// import 'package:flutter12/views/widget/Save/savePage.dart';
 import 'package:http/http.dart' as http;
 // import '../../../models/recipe.dart';
 
@@ -18,17 +21,89 @@ class ResepPageDetail extends StatefulWidget {
 class _ResepPageDetailState extends State<ResepPageDetail> {
   final ApiService apiService = ApiService();
   late Future<RecipeDetail> recipeDetailFuture;
+  bool isRecipeSaved = false;
 
   void initState() {
     super.initState();
     recipeDetailFuture = fetchRecipeDetail(widget.recipe.key);
+    _checkRecipeSaved();
+    // isSaved = SavedRecipes.savedRecipes.contains(widget.recipe);
     // recipeDetailFuture = fetchRecipeDetail(widget.recipe.key);
+  }
+
+  void _saveRecipe() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? savedRecipes = prefs.getStringList('savedRecipes');
+
+    if (savedRecipes == null) {
+      savedRecipes = [];
+    }
+
+    Map<String, String> savedRecipe = {
+      'key': widget.recipe.key,
+      'title': widget.recipe.title,
+      'image': widget.recipe.image,
+    };
+
+    savedRecipes.add(jsonEncode(savedRecipe));
+
+    await prefs.setStringList('savedRecipes', savedRecipes);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Resep telah disimpan'),
+      ),
+    );
+    setState(() {
+      isRecipeSaved = true;
+    });
+  }
+
+  void _removeRecipe() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? savedRecipes = prefs.getStringList('savedRecipes');
+    if (savedRecipes == null) {
+      return;
+    }
+
+    Map<String, String> savedRecipe = {
+      'key': widget.recipe.key,
+      'title': widget.recipe.title,
+      'image': widget.recipe.image,
+    };
+
+    savedRecipes.remove(jsonEncode(savedRecipe));
+
+    await prefs.setStringList('savedRecipes', savedRecipes);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Resep dihapus dari simpanan'),
+      ),
+    );
+
+    setState(() {
+      isRecipeSaved = false;
+    });
+  }
+
+  void _checkRecipeSaved() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<Map<String, dynamic>> savedRecipes =
+        (prefs.getStringList('savedRecipes') ?? []).map((recipeJson) {
+      return jsonDecode(recipeJson) as Map<String, dynamic>;
+    }).toList();
+
+    setState(() {
+      isRecipeSaved =
+          savedRecipes.any((recipe) => recipe['key'] == widget.recipe.key);
+    });
   }
 
   // panggil fetch data dari api_service.dart ke sini
   Future<RecipeDetail> fetchRecipeDetail(String key) async {
-    final response = await http.get(Uri.parse(
-        'https://masak-n47txy691-tomorisakura.vercel.app/api/recipe/$key'));
+    final response = await http
+        .get(Uri.parse('https://resep-hari-ini.vercel.app/api/recipe/$key'));
     // final jsonData = await apiService.fetchRecipeDetail(key);
     // print(response.body);
     if (response.statusCode == 200) {
@@ -52,6 +127,7 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
 
   @override
   Widget build(BuildContext context) {
+    // bool isSaved = SavedRecipes.savedRecipes.contains(widget.recipe);
     return Scaffold(
         body: FutureBuilder<RecipeDetail>(
             future: recipeDetailFuture,
@@ -61,7 +137,6 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else if (snapshot.hasData) {
-                // return _buildRecipeDetail(snapshot.data!);
                 final recipeDetail = snapshot.data!;
 
                 return CustomScrollView(
@@ -70,17 +145,32 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                       floating: true,
                       pinned: true,
                       snap: true,
-                      expandedHeight: 400,
+                      expandedHeight: 350,
                       flexibleSpace: FlexibleSpaceBar(
                         background: Image.network(
                           widget.recipe.image,
-                          // recipe.image!,
-                          // fit: BoxFit.cover,
                           fit: BoxFit.cover,
                         ),
                       ),
-                      title: Text(widget.recipe.title),
-                      // Text(recipe.title!),
+                      actions: [
+                        IconButton(
+                          onPressed: () {
+                            isRecipeSaved ? _removeRecipe() : _saveRecipe();
+                            // if (isRecipeSaved) {
+                            //   _removeRecipe();
+                            // } else {
+                            //   _saveRecipe();
+                            // }
+                            isRecipeSaved = !isRecipeSaved;
+                          },
+                          icon: Icon(
+                              isRecipeSaved
+                                  ? Icons.bookmark
+                                  : Icons.bookmark_border,
+                              color: Colors.white),
+                        ),
+                      ],
+                      // title: Text(widget.recipe.title),
                     ),
                     SliverList(
                         delegate: SliverChildListDelegate([
@@ -93,7 +183,6 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                               padding: EdgeInsets.all(10),
                               child: Text(
                                 widget.recipe.title,
-                                // recipe.title,
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
@@ -164,7 +253,7 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                             padding: EdgeInsets.all(5),
                             margin: EdgeInsets.only(left: 100, right: 100),
                             decoration: BoxDecoration(
-                              // color: Colors.blueGrey[50],
+                              color: Colors.blueGrey[50],
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
                                   // color: Colors.blueGrey[50],
@@ -223,13 +312,23 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                                       'Bahan - Bahan',
                                     ),
                                     SizedBox(),
-                                    Text(
-                                      recipeDetail.ingredient.join('\n'),
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ]))
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: recipeDetail.ingredient
+                                          .map((ingredient) => Padding(
+                                                padding:
+                                                    EdgeInsets.only(bottom: 1),
+                                                child: Text(
+                                                  '- $ingredient',
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ))
+                                          .toList(),
+                                    )
+                                  ])),
                         ],
                       )),
                     ]))

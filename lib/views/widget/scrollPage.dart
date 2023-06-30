@@ -1,6 +1,10 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter12/views/widget/Artikel/artikelPage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:flutter12/views/widget/Resep/resepPage.dart';
-import 'package:flutter12/views/widget/Category/categoryPage.dart';
+import 'package:flutter12/views/widget/save/savePage.dart';
 import 'package:flutter12/views/widget/Resep/resepPage_Detail.dart';
 
 import 'package:flutter12/models/model.dart';
@@ -21,6 +25,7 @@ class _ScrollPageState extends State<ScrollPage> {
 
   List<Recipe> recipes = [];
   List<Category> categorys = [];
+  List<Map<String, dynamic>> slideShowData = [];
   int currentPage = 1;
   bool isLoading = false;
   ScrollController _scrollController = ScrollController();
@@ -30,12 +35,14 @@ class _ScrollPageState extends State<ScrollPage> {
   void initState() {
     super.initState();
     fetchData(currentPage);
+    fetchSlideShow();
     // fetchCategory('category', currentPage);
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         fetchData(currentPage);
+        fetchSlideShow();
       }
     });
   }
@@ -67,6 +74,19 @@ class _ScrollPageState extends State<ScrollPage> {
     }
   }
 
+  Future<void> fetchSlideShow() async {
+    final response = await http.get(Uri.parse(
+        'https://resep-hari-ini.vercel.app/api/category/article/makanan-gaya-hidup'));
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      if (jsonData['status'] == true) {
+        setState(() {
+          slideShowData = List<Map<String, dynamic>>.from(jsonData['results']);
+        });
+      }
+    }
+  }
+
   // dispose
   @override
   void dispose() {
@@ -80,26 +100,6 @@ class _ScrollPageState extends State<ScrollPage> {
       MaterialPageRoute(
         builder: (context) => ResepPageDetail(recipe: recipe),
       ),
-    );
-  }
-
-  void _showPopup(BuildContext context, String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Popup'),
-          content: Text(message),
-          actions: [
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 
@@ -121,7 +121,7 @@ class _ScrollPageState extends State<ScrollPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Text(
-                            'Temukan Resep Makananmu Berdasarkan Kategori',
+                            'Artikel yang Mungkin Kamu Suka',
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
@@ -134,7 +134,7 @@ class _ScrollPageState extends State<ScrollPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const CategoryPage(),
+                                  builder: (context) => const ArtikelPage(),
                                 ),
                               );
                             },
@@ -143,48 +143,63 @@ class _ScrollPageState extends State<ScrollPage> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                        height: 150,
-                        // flex: 1,
-                        child: ListView(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              const SizedBox(width: 10),
-                              InkWell(
-                                onTap: () {
-                                  _showPopup(context, 'Makanan Berat');
-                                },
-                                child: SizedBox(
-                                  width: 150,
+                    Column(
+                      children: [
+                        CarouselSlider(
+                          options: CarouselOptions(
+                            // height: 200,
+                            height: MediaQuery.of(context).size.height * 0.215,
+                            enlargeCenterPage: true,
+                            enableInfiniteScroll: true,
+                            autoPlay: true,
+                          ),
+                          items: slideShowData.map((item) {
+                            return Builder(
+                              builder: (BuildContext context) {
+                                return Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.symmetric(horizontal: 5),
                                   child: Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: Image.network(
-                                            'https://cdn.pixabay.com/photo/2015/04/08/13/13/food-712665_960_720.jpg',
+                                    child: ClipRRect(
+                                      // berikan text di dalam image
+                                      child: Stack(
+                                        children: [
+                                          Image.network(
+                                            item['thumb'],
+                                            fit: BoxFit.cover,
                                           ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        // panggil text dari fetch data
-                                        Text(
-                                          'Makanan Berat',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ],
+                                          Positioned(
+                                            bottom: 0,
+                                            left: 0,
+                                            right: 0,
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 8, horizontal: 16),
+                                              color:
+                                                  Colors.black.withOpacity(0.5),
+                                              child: Text(
+                                                item['title'],
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
-                                ),
-                              )
-                            ])),
+                                );
+                              },
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
                     Container(
                       margin: const EdgeInsets.only(left: 10),
                       child: Row(
@@ -242,18 +257,49 @@ class _ScrollPageState extends State<ScrollPage> {
                     child: Column(
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            recipe.image,
+                          // berikan rounded corners di image
+                          borderRadius: BorderRadius.circular(8),
+                          // berikan text di dalam image dengan menggunakan stack
+                          child: Stack(
+                            children: [
+                              Image.network(
+                                recipe.image,
+                                fit: BoxFit.cover,
+                              ),
+                              Positioned(
+                                bottom: 80,
+                                top: 80,
+                                left: 0,
+                                right: 0,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 16),
+                                  color: Colors.black.withOpacity(0.5),
+                                  child: Text(
+                                    recipe.title,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
+                          // borderRadius: BorderRadius.circular(10),
+                          // child: Image.network(
+                          //   recipe.image,
+                          // ),
                         ),
-                        const SizedBox(height: 10),
-                        Text(
-                          recipe.title,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w500),
-                        ),
+                        // const SizedBox(height: 10),
+                        // Text(
+                        //   recipe.title,
+                        //   textAlign: TextAlign.center,
+                        //   style: TextStyle(
+                        //       fontSize: 15, fontWeight: FontWeight.w500),
+                        // ),
                       ],
                     ),
                   ),

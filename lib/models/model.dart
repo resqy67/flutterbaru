@@ -8,6 +8,10 @@ class Recipe {
     required this.title,
     required this.key,
   });
+
+  // Object? toJson() {}
+
+  // static fromJson(jsonDecode) {}
 }
 
 class RecipeDetail {
@@ -29,6 +33,17 @@ class RecipeDetail {
     required this.desc,
     required this.ingredient,
   });
+
+  // get key => null;
+  // RecipeDetail({
+  //   required this.title,
+  //   required this.thumb,
+  //   required this.times,
+  //   required this.difficulty,
+  //   required this.author,
+  //   required this.desc,
+  //   required this.ingredient,
+  // });
 }
 
 class Artikel {
