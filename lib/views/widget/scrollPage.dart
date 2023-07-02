@@ -1,15 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter12/views/widget/Artikel/artikelPage.dart';
+import 'package:maskara/views/widget/Artikel/artikelPage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter12/views/widget/Resep/resepPage.dart';
-import 'package:flutter12/views/widget/save/savePage.dart';
-import 'package:flutter12/views/widget/Resep/resepPage_Detail.dart';
+import 'package:maskara/views/widget/Resep/resepPage.dart';
+import 'package:maskara/views/widget/save/savePage.dart';
+import 'package:maskara/views/widget/Resep/resepPage_Detail.dart';
 
-import 'package:flutter12/models/model.dart';
-import 'package:flutter12/models/api_service.dart';
-import 'package:flutter12/models/kategori.dart';
+import 'package:maskara/models/model.dart';
+import 'package:maskara/models/api_service.dart';
+import 'package:maskara/models/kategori.dart';
+
+import 'package:maskara/views/widget/shimmer_loading.dart';
 
 class ScrollPage extends StatefulWidget {
   const ScrollPage({
@@ -153,58 +155,69 @@ class _ScrollPageState extends State<ScrollPage> {
                     ),
                     Column(
                       children: [
-                        CarouselSlider(
-                          options: CarouselOptions(
-                            // height: 200,
-                            height: MediaQuery.of(context).size.height * 0.215,
-                            enlargeCenterPage: true,
-                            enableInfiniteScroll: true,
-                            autoPlay: true,
-                          ),
-                          items: slideShowData.map((item) {
-                            return Builder(
-                              builder: (BuildContext context) {
-                                return Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  margin: EdgeInsets.symmetric(horizontal: 5),
-                                  child: Card(
-                                    child: ClipRRect(
-                                      // berikan text di dalam image
-                                      child: Stack(
-                                        children: [
-                                          Image.network(
-                                            item['thumb'],
-                                            fit: BoxFit.cover,
-                                          ),
-                                          Positioned(
-                                            bottom: 0,
-                                            left: 0,
-                                            right: 0,
-                                            child: Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 8, horizontal: 16),
-                                              color:
-                                                  Colors.black.withOpacity(0.5),
-                                              child: Text(
-                                                item['title'],
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
+                        isLoading
+                            ? Center(
+                                child: shimmerLoadingSliderPage,
+                              )
+                            : CarouselSlider(
+                                options: CarouselOptions(
+                                  // height: 200,
+                                  height: MediaQuery.of(context).size.height *
+                                      0.215,
+                                  enlargeCenterPage: true,
+                                  enableInfiniteScroll: true,
+                                  autoPlay: true,
+                                ),
+                                items: slideShowData.map((item) {
+                                  return Builder(
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        margin:
+                                            EdgeInsets.symmetric(horizontal: 5),
+                                        child: Card(
+                                          child: ClipRRect(
+                                            // berikan text di dalam image
+                                            child: Stack(
+                                              children: [
+                                                Image.network(
+                                                  item['thumb'],
+                                                  fit: BoxFit.cover,
                                                 ),
-                                              ),
+                                                Positioned(
+                                                  bottom: 0,
+                                                  left: 0,
+                                                  right: 0,
+                                                  child: Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 8,
+                                                            horizontal: 16),
+                                                    color: Colors.black
+                                                        .withOpacity(0.5),
+                                                    child: Text(
+                                                      item['title'],
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
                                           ),
-                                        ],
-                                      ),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          }).toList(),
-                        ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }).toList(),
+                              ),
                       ],
                     ),
                     const SizedBox(height: 10),
@@ -248,7 +261,8 @@ class _ScrollPageState extends State<ScrollPage> {
             (BuildContext context, int index) {
               if (index == recipes.length) {
                 if (isLoading) {
-                  return Center(child: CircularProgressIndicator());
+                  // return Center(child: CircularProgressIndicator());
+                  return shimmerLoadingScrollPage;
                 } else {
                   return Container(); // Render an empty container if no more data is available
                 }

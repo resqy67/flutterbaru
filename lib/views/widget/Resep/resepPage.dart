@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter12/views/widget/bottomNavBar.dart';
-import 'package:flutter12/views/widget/resep/resepPage_Detail.dart';
+import 'package:maskara/views/widget/Resep/resep_search.dart';
+import 'package:maskara/views/widget/Resep/search_helper.dart';
+import 'package:maskara/views/widget/bottomNavBar.dart';
+import 'package:maskara/views/widget/resep/resepPage_Detail.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter12/models/model.dart';
-import 'package:flutter12/models/api_service.dart';
+import 'package:maskara/models/model.dart';
+import 'package:maskara/models/api_service.dart';
+import 'package:maskara/views/widget/Resep/navigation_helper.dart';
+import 'package:maskara/views/widget/shimmer_loading.dart';
 
 class ResepPage extends StatefulWidget {
   const ResepPage({Key? key}) : super(key: key);
@@ -61,6 +65,19 @@ class _ResepPageState extends State<ResepPage> {
     }
   } // fetch data
 
+  void _showSearch(BuildContext context) {
+    showSearch(
+      context: context,
+      delegate: RecipeSearchDelegate(
+        recipes,
+        '',
+        (query, results) {
+          // Handle search results
+        },
+      ),
+    );
+  }
+
   // dispose
   @override
   void dispose() {
@@ -68,14 +85,14 @@ class _ResepPageState extends State<ResepPage> {
     super.dispose();
   }
 
-  void navigateToRecipeDetail(Recipe recipe) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ResepPageDetail(recipe: recipe),
-      ),
-    );
-  }
+  // void navigateToRecipeDetail(Recipe recipe) {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => ResepPageDetail(recipe: recipe),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +104,9 @@ class _ResepPageState extends State<ResepPage> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              _showSearch(context);
+            },
             icon: const Icon(Icons.search),
           ),
           const SizedBox(width: 10),
@@ -109,7 +128,8 @@ class _ResepPageState extends State<ResepPage> {
               (BuildContext context, int index) {
                 if (index == recipes.length) {
                   if (isLoading) {
-                    return Center(child: CircularProgressIndicator());
+                    // return Center(child: CircularProgressIndicator());
+                    return shimmerLoadingWidget;
                   } else {
                     return Container(); // Render an empty container if no more data is available
                   }
@@ -118,7 +138,7 @@ class _ResepPageState extends State<ResepPage> {
                 return Container(
                   child: InkWell(
                     onTap: () {
-                      navigateToRecipeDetail(recipe);
+                      navigateToRecipeDetail(context, recipe);
                     },
                     child: Card(
                       shape: RoundedRectangleBorder(

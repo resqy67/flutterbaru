@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter12/views/home.dart';
-import 'package:flutter12/views/widget/Artikel/artikelPage.dart';
-import 'package:flutter12/views/widget/Save/savePage.dart';
+import 'package:maskara/views/home.dart';
+import 'package:maskara/views/widget/Artikel/artikelPage.dart';
+import 'package:maskara/views/widget/Save/savePage.dart';
+import 'package:flutter/services.dart';
 
 void main() {
-  runApp(const MyApp());
+  // berikan potrait orientation only pada aplikasi
+  // SystemChrome.setPreferredOrientations(
+  //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((value) => runApp(const MyApp()));
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +21,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Maskara',
       theme: ThemeData(
         // This is the theme of your application.
         //

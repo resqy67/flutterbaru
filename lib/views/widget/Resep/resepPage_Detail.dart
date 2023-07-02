@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:flutter12/views/widget/resep/resepPage_Detail.dart';
-import 'package:flutter12/views/widget/save/savePage.dart';
+import 'package:maskara/views/widget/resep/resepPage_Detail.dart';
+import 'package:maskara/views/widget/save/savePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter12/models/model.dart';
-import 'package:flutter12/models/api_service.dart';
+import 'package:maskara/models/model.dart';
+import 'package:maskara/models/api_service.dart';
 // import 'package:flutter12/views/widget/Save/savePage.dart';
 import 'package:http/http.dart' as http;
 // import '../../../models/recipe.dart';
@@ -244,36 +244,76 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                     // buatkan slivergrid untuk menampilkan kalori dan waktu memasak
                     SliverGrid(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 1,
-                        childAspectRatio: 6,
+                        crossAxisCount: 2,
+                        childAspectRatio: 2,
                       ),
                       delegate: SliverChildListDelegate(
                         [
                           Container(
                             padding: EdgeInsets.all(5),
-                            margin: EdgeInsets.only(left: 100, right: 100),
+                            margin: EdgeInsets.only(left: 15, right: 15),
                             decoration: BoxDecoration(
                               color: Colors.blueGrey[50],
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
-                                  // color: Colors.blueGrey[50],
-                                  width: 0.1),
+                                  color: Colors.blueGrey[50]!, width: 0.1),
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  'Waktu Memasak',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                Container(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Waktu Memasak',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        recipeDetail.times,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                SizedBox(height: 10),
-                                Text(
-                                  recipeDetail.times,
-                                  style: TextStyle(
-                                    fontSize: 14,
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(5),
+                            margin: EdgeInsets.only(left: 15, right: 15),
+                            decoration: BoxDecoration(
+                              color: Colors.blueGrey[50],
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  color: Colors.blueGrey[50]!, width: 0.1),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Tingkat Kesulitan',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        recipeDetail.difficulty,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -292,14 +332,23 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Deskripsi',
+                                    SizedBox(
+                                      height: 8,
                                     ),
-                                    SizedBox(),
+                                    Text('About Recipe',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
                                     Text(
                                       recipeDetail.desc,
+                                      textAlign: TextAlign.justify,
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 16,
+                                        color: Colors.grey[800],
                                       ),
                                     ),
                                   ])),
@@ -308,10 +357,14 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Bahan - Bahan',
+                                    Text('Bahan - Bahan',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                    SizedBox(
+                                      height: 16,
                                     ),
-                                    SizedBox(),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,

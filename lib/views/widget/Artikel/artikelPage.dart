@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter12/views/widget/artikel/artikelPage_detail.dart';
-import 'package:flutter12/views/widget/bottomNavBar.dart';
-import 'package:flutter12/models/model.dart';
-import 'package:flutter12/models/api_service.dart';
+import 'package:maskara/views/widget/artikel/artikelPage_detail.dart';
+import 'package:maskara/views/widget/bottomNavBar.dart';
+import 'package:maskara/models/model.dart';
+import 'package:maskara/models/api_service.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:maskara/views/widget/shimmer_loading.dart';
 
 class ArtikelPage extends StatefulWidget {
   const ArtikelPage({Key? key}) : super(key: key);
@@ -83,13 +84,6 @@ class _ArtikelPageState extends State<ArtikelPage> {
           'Temukan Artikelnya',
           style: TextStyle(fontSize: 20),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
-          ),
-          const SizedBox(width: 10),
-        ],
       ),
       // bottomNavigationBar: BottomNavBar(),
       body: GridView.builder(
@@ -105,7 +99,8 @@ class _ArtikelPageState extends State<ArtikelPage> {
         itemBuilder: (BuildContext context, int index) {
           if (index == artikels.length) {
             if (isLoading) {
-              return _buildShimmerLoading();
+              // return _buildShimmerLoading();
+              return shimmerLoadingWidget;
               // return Center(child: CircularProgressIndicator());
             } else {
               return Container(
@@ -179,30 +174,4 @@ class _ArtikelPageState extends State<ArtikelPage> {
       ),
     );
   }
-}
-
-Widget _buildShimmerLoading() {
-  return GridView.builder(
-    shrinkWrap: true,
-    physics: NeverScrollableScrollPhysics(),
-    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 1,
-      childAspectRatio: 0.7,
-      crossAxisSpacing: 10,
-      mainAxisSpacing: 10,
-    ),
-    itemCount: 1, // Jumlah shimmer loading yang ingin ditampilkan
-    itemBuilder: (BuildContext context, int index) {
-      return Shimmer.fromColors(
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.grey[100]!,
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          color: Colors.white,
-        ),
-      );
-    },
-  );
 }

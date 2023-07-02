@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter12/models/model.dart';
-import 'package:flutter12/models/api_service.dart';
+import 'package:maskara/models/model.dart';
+import 'package:maskara/models/api_service.dart';
 import 'package:http/http.dart' as http;
 
 class ArtikelPageDetail extends StatefulWidget {
@@ -82,14 +82,8 @@ class _ArtikelPageDetailState extends State<ArtikelPageDetail> {
                           const SizedBox(height: 16),
                           Row(
                             children: [
-                              Icon(
-                                Icons.person,
-                                size: 20,
-                                color: Colors.black,
-                              ),
-                              const SizedBox(width: 8),
                               Text(
-                                'oleh: ${artikelDetail.author}',
+                                'By ${artikelDetail.author} | ${artikelDetail.date}',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -97,32 +91,7 @@ class _ArtikelPageDetailState extends State<ArtikelPageDetail> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 8),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.calendar_today,
-                                size: 20,
-                                color: Colors.black,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '${artikelDetail.date}',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
                           const SizedBox(height: 16),
-                          Text(
-                            'Deskripsi:',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
                           Text(
                             artikelDetail.desc,
                             textAlign: TextAlign.justify,

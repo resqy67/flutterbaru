@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter12/views/widget/Artikel/artikelPage.dart';
-import 'package:flutter12/views/widget/Save/savePage.dart';
-import 'package:flutter12/views/widget/scrollPage.dart';
+import 'package:maskara/views/widget/Artikel/artikelPage.dart';
+import 'package:maskara/views/widget/Save/savePage.dart';
+import 'package:maskara/views/widget/scrollPage.dart';
 
 Widget buildBody(int selectedIndex) {
   switch (selectedIndex) {
