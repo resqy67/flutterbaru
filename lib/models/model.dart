@@ -23,6 +23,7 @@ class RecipeDetail {
 
   final String desc;
   final List<String> ingredient;
+  final List<String> step;
 
   RecipeDetail({
     required this.title,
@@ -32,6 +33,7 @@ class RecipeDetail {
     required this.author,
     required this.desc,
     required this.ingredient,
+    required this.step,
   });
 
   // get key => null;

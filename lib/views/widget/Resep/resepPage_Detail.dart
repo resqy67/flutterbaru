@@ -100,10 +100,9 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
     });
   }
 
-  // panggil fetch data dari api_service.dart ke sini
   Future<RecipeDetail> fetchRecipeDetail(String key) async {
-    final response = await http
-        .get(Uri.parse('https://resep-hari-ini.vercel.app/api/recipe/$key'));
+    final response = await http.get(Uri.parse(
+        'https://masak-apa-hari-ini-34bg.vercel.app/api/recipe/$key'));
     // final jsonData = await apiService.fetchRecipeDetail(key);
     // print(response.body);
     if (response.statusCode == 200) {
@@ -118,7 +117,7 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
         desc: data['results']['desc'],
         // needItem: List<String>.from(data['results']['needItem']),
         ingredient: List<String>.from(data['results']['ingredient']),
-        // step: List<String>.from(data['results']['step']),
+        step: List<String>.from(data['results']['step']),
       );
     } else {
       throw Exception('Failed to fetch recipe detail: ${response.statusCode}');
@@ -380,6 +379,40 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                                                 ),
                                               ))
                                           .toList(),
+                                    )
+                                  ])),
+                          Container(
+                              padding: EdgeInsets.all(10),
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text('Cara Memasak',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: recipeDetail.step
+                                          .asMap()
+                                          .entries
+                                          .map((entry) {
+                                        int stepNumber = entry.key + 1;
+                                        String step = entry.value;
+                                        return Padding(
+                                          padding: EdgeInsets.only(bottom: 1),
+                                          child: Text(
+                                            '$stepNumber. $step',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
                                     )
                                   ])),
                         ],
