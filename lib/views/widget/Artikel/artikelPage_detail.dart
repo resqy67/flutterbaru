@@ -24,7 +24,7 @@ class _ArtikelPageDetailState extends State<ArtikelPageDetail> {
 
   Future<ArtikelDetail> fetchArtikelDetail(String key) async {
     final response = await http.get(Uri.parse(
-        'https://masak-n47txy691-tomorisakura.vercel.app/api/article/$key'));
+        'https://masak-apa-hari-ini-34bg.vercel.app/api/article/$key'));
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       return ArtikelDetail(

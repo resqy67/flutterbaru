@@ -78,7 +78,7 @@ class _ScrollPageState extends State<ScrollPage> {
 
   Future<void> fetchSlideShow() async {
     final response = await http.get(Uri.parse(
-        'https://resep-hari-ini.vercel.app/api/category/article/makanan-gaya-hidup'));
+        'https://masak-apa-hari-ini-34bg.vercel.app/api/category/article/makanan-gaya-hidup'));
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
       if (jsonData['status'] == true) {

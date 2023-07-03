@@ -3,7 +3,7 @@ import 'dart:convert';
 
 class ApiService {
   // final String apiUrl = "https://masak-n47txy691-tomorisakura.vercel.app/";
-  final String apiUrl = "https://resep-hari-ini.vercel.app/";
+  final String apiUrl = "https://masak-apa-hari-ini-34bg.vercel.app/";
 
   Future<List<Map<String, dynamic>>> fetchRecipes(int page) async {
     final response = await http.get(Uri.parse("$apiUrl/api/recipes/$page"));
@@ -21,16 +21,16 @@ class ApiService {
 
     if (page == 1) {
       apiUrl =
-          "https://resep-hari-ini.vercel.app/api/category/article/tips-masak";
+          "https://masak-apa-hari-ini-34bg.vercel.app/api/category/article/tips-masak";
     } else if (page == 2) {
       apiUrl =
-          "https://resep-hari-ini.vercel.app/api/category/article/makanan-gaya-hidup";
+          "https://masak-apa-hari-ini-34bg.vercel.app/api/category/article/makanan-gaya-hidup";
     } else if (page == 3) {
       apiUrl =
-          "https://resep-hari-ini.vercel.app/api/category/article/resep-lezat-anti-sisa";
+          "https://masak-apa-hari-ini-34bg.vercel.app/api/category/article/resep-lezat-anti-sisa";
     } else if (page == 4) {
       apiUrl =
-          "https://resep-hari-ini.vercel.app/api/category/article/uncategorized";
+          "https://masak-apa-hari-ini-34bg.vercel.app/api/category/article/uncategorized";
     } else {
       throw Exception('Invalid page number');
     }
@@ -45,7 +45,6 @@ class ApiService {
     }
   }
 
-  //buatkan future untuk fetch detail
   Future<Map<String, dynamic>> fetchRecipeDetail(String key) async {
     final response = await http.get(Uri.parse("$apiUrl/api/recipe/$key"));
 

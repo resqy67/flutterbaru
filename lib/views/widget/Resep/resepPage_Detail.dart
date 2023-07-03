@@ -371,10 +371,15 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                                           .map((ingredient) => Padding(
                                                 padding:
                                                     EdgeInsets.only(bottom: 1),
-                                                child: Text(
-                                                  '- $ingredient',
-                                                  style: TextStyle(
-                                                    fontSize: 16,
+                                                // jadi kan ke kiri
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Text(
+                                                    '- $ingredient',
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                    ),
                                                   ),
                                                 ),
                                               ))
