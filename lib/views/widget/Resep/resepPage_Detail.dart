@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:maskara/views/widget/resep/resepPage_Detail.dart';
 import 'package:maskara/views/widget/save/savePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -172,6 +173,8 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                       // title: Text(widget.recipe.title),
                     ),
                     SliverList(
+                        // berikan rounded rectangle border pada container
+
                         delegate: SliverChildListDelegate([
                       Container(
                           child: Column(
@@ -179,11 +182,12 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Container(
-                              padding: EdgeInsets.all(10),
+                              padding: EdgeInsets.only(
+                                  left: 30, top: 20, right: 30, bottom: 10),
                               child: Text(
                                 widget.recipe.title,
                                 style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                    fontSize: 20, fontWeight: FontWeight.w500),
                               ),
                             ),
                           ),
@@ -193,22 +197,26 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Container(
-                                    padding: EdgeInsets.all(10),
+                                    padding: EdgeInsets.only(
+                                        left: 30,
+                                        // top: 20,
+                                        right: 30,
+                                        bottom: 10),
                                     child: Column(
                                       children: [
                                         Row(
                                           children: [
-                                            Icon(
-                                              Icons.person,
-                                              size: 20,
-                                              color: Colors.black,
-                                            ),
-                                            SizedBox(width: 5),
+                                            // Icon(
+                                            //   Icons.person,
+                                            //   size: 20,
+                                            //   color: Colors.black,
+                                            // ),
+                                            // SizedBox(width: 5),
                                             Text(
-                                              'Oleh: ${recipeDetail.author['user']}',
+                                              '${recipeDetail.author['user']}',
                                               style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w300,
                                               ),
                                             ),
                                           ],
@@ -216,17 +224,17 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                                         SizedBox(height: 5),
                                         Row(
                                           children: [
-                                            Icon(
-                                              Icons.calendar_today,
-                                              size: 20,
-                                              color: Colors.black,
-                                            ),
-                                            SizedBox(width: 5),
+                                            // Icon(
+                                            //   Icons.calendar_today,
+                                            //   size: 20,
+                                            //   color: Colors.black,
+                                            // ),
+                                            // SizedBox(width: 5),
                                             Text(
-                                              'Tanggal: ${recipeDetail.author['datePublished']}',
+                                              '${recipeDetail.author['datePublished']}',
                                               style: TextStyle(
-                                                fontSize: 15,
-                                              ),
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w300),
                                             ),
                                           ],
                                         ),
@@ -244,7 +252,7 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                     SliverGrid(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 2,
+                        childAspectRatio: 3,
                       ),
                       delegate: SliverChildListDelegate(
                         [
@@ -252,10 +260,10 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                             padding: EdgeInsets.all(5),
                             margin: EdgeInsets.only(left: 15, right: 15),
                             decoration: BoxDecoration(
-                              color: Colors.blueGrey[50],
-                              borderRadius: BorderRadius.circular(5),
+                              // color: Colors.blueGrey[50],
+                              borderRadius: BorderRadius.circular(10),
                               border: Border.all(
-                                  color: Colors.blueGrey[50]!, width: 0.1),
+                                  color: Colors.blueGrey[50]!, width: 3),
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -266,16 +274,16 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                                       Text(
                                         'Waktu Memasak',
                                         style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 14,
                                         ),
                                       ),
                                       SizedBox(height: 10),
                                       Text(
                                         recipeDetail.times,
                                         style: TextStyle(
-                                          fontSize: 14,
-                                        ),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ],
                                   ),
@@ -287,10 +295,10 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                             padding: EdgeInsets.all(5),
                             margin: EdgeInsets.only(left: 15, right: 15),
                             decoration: BoxDecoration(
-                              color: Colors.blueGrey[50],
-                              borderRadius: BorderRadius.circular(5),
+                              // color: Colors.blueGrey[50],
+                              borderRadius: BorderRadius.circular(10),
                               border: Border.all(
-                                  color: Colors.blueGrey[50]!, width: 0.1),
+                                  color: Colors.blueGrey[50]!, width: 3),
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -301,16 +309,16 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                                       Text(
                                         'Tingkat Kesulitan',
                                         style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
                                         ),
                                       ),
                                       SizedBox(height: 10),
                                       Text(
                                         recipeDetail.difficulty,
                                         style: TextStyle(
-                                          fontSize: 14,
-                                        ),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ],
                                   ),
@@ -327,27 +335,35 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                           child: Column(
                         children: [
                           Container(
-                              padding: EdgeInsets.all(10),
+                              padding: EdgeInsets.only(left: 20, right: 20),
                               child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  // mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     SizedBox(
                                       height: 8,
                                     ),
-                                    Text('About Recipe',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        )),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10, bottom: 5),
+                                      child: Text('About Recipe',
+                                          // textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600,
+                                          )),
+                                    ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Text(
-                                      recipeDetail.desc,
+                                      '\t\t\t\t\t\t\t\t${recipeDetail.desc}',
                                       textAlign: TextAlign.justify,
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.grey[800],
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        height: 1.7,
                                       ),
                                     ),
                                   ])),
@@ -356,10 +372,13 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 20, right: 20, top: 10)),
                                     Text('Bahan - Bahan',
                                         style: TextStyle(
                                           fontSize: 20,
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w600,
                                         )),
                                     SizedBox(
                                       height: 16,
@@ -368,22 +387,38 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: recipeDetail.ingredient
-                                          .map((ingredient) => Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 1),
-                                                // jadi kan ke kiri
-                                                child: Align(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Text(
-                                                    '- $ingredient',
-                                                    style: TextStyle(
-                                                      fontSize: 16,
-                                                    ),
+                                          .asMap()
+                                          .entries
+                                          .map((entry) {
+                                        // int stepIng = entry.key + 1;
+                                        String ingredient = entry.value;
+                                        return Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 20, right: 20, bottom: 1),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                // '$stepIng.',
+                                                '-',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              SizedBox(width: 8),
+                                              Expanded(
+                                                child: Text(
+                                                  ingredient,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
                                                   ),
                                                 ),
-                                              ))
-                                          .toList(),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }).toList(),
                                     )
                                   ])),
                           Container(
@@ -394,7 +429,7 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                                     Text('Cara Memasak',
                                         style: TextStyle(
                                           fontSize: 20,
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w600,
                                         )),
                                     SizedBox(
                                       height: 16,
@@ -409,12 +444,28 @@ class _ResepPageDetailState extends State<ResepPageDetail> {
                                         int stepNumber = entry.key + 1;
                                         String step = entry.value;
                                         return Padding(
-                                          padding: EdgeInsets.only(bottom: 1),
-                                          child: Text(
-                                            '$stepNumber. $step',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                            ),
+                                          padding: EdgeInsets.only(
+                                              left: 20, right: 20, bottom: 1),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '$stepNumber.',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              SizedBox(width: 8),
+                                              Expanded(
+                                                child: Text(
+                                                  step,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         );
                                       }).toList(),

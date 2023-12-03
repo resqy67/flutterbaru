@@ -92,14 +92,48 @@ class _ArtikelPageDetailState extends State<ArtikelPageDetail> {
                             ],
                           ),
                           const SizedBox(height: 16),
-                          Text(
-                            artikelDetail.desc,
+                          // Text(
+                          //   artikelDetail.desc,
+                          //   textAlign: TextAlign.justify,
+                          //   style: TextStyle(
+                          //     fontSize: 16,
+                          //     color: Colors.grey[800],
+                          //   ),
+                          // ),
+                          RichText(
                             textAlign: TextAlign.justify,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[800],
+                            text: TextSpan(
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey[800],
+                                height:
+                                    1.5, // Membuat baris lebih longgar untuk keterbacaan
+                              ),
+                              children: artikelDetail.desc
+                                  .split('\n')
+                                  .map((String paragraph) {
+                                return WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(bottom: 8.0),
+                                    child: Text(
+                                      '\t\t\t\t\t\t\t\t${paragraph}',
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.grey[600],
+                                        letterSpacing:
+                                            1, // Menambahkan sedikit spasi antar huruf
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        height: 1.7,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
                             ),
-                          ),
+                          )
                         ],
                       ),
                     ),

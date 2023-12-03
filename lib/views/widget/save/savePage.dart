@@ -28,7 +28,7 @@ class _SavePageState extends State<SavePage> {
 
   Future<Recipe> fetchRecipe(String key) async {
     final response = await http.get(Uri.parse(
-        'https://masak-n47txy691-tomorisakura.vercel.app/api/recipe/$key'));
+        'https://masak-apa-hari-ini-34bg.vercel.app/api/article/$key'));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
